@@ -1,13 +1,126 @@
+hostname
+
+uname -a
+
+/proc/version
+
+/etc/issue
+
+ ps Command
+    ps -A: View all running processes
+    ps axjf: View process tree (see the tree formation until ps axjf is run below)
+    ps aux: The aux option will show processes for all users 
+
+
+env
+
+sudo -l
+
+ls 
+
+id 
+
+/etc/passwd
+
+history
+
+ifconfig  : The target system may be a pivoting point to another network 
+
+ip route
+
+netstat
+
+netstat -a: shows all listening ports and established connections.
+netstat -at or netstat -au can also be used to list TCP or UDP protocols respectively.
+netstat -l: list ports in “listening” mode. 
+netstat -lt : list only ports that are listening using the TCP protocol 
+netstat -s : list network usage statistics by protocol
+netstat -tp: list connections with the service name and PID information.
+netstat -ltp : list listening ports 
+netstat -ano
+
+
 Find files:
 
-    find . -name flag1.txt: find the file named “flag1.txt” in the current directory
-    find /home -name flag1.txt: find the file names “flag1.txt” in the /home directory
-    find / -type d -name config: find the directory named config under “/”
-    find / -type f -perm 0777: find files with the 777 permissions (files readable, writable, and executable by all users)
-    find / -perm a=x: find executable files
-    find /home -user frank: find all files for user “frank” under “/home”
-    find / -mtime 10: find files that were modified in the last 10 days
-    find / -atime 10: find files that were accessed in the last 10 day
-    find / -cmin -60: find files changed within the last hour (60 minutes)
-    find / -amin -60: find files accesses within the last hour (60 minutes)
-    find / -size 50M: find files with a 50 MB size
+    find . -name flag1.txt -type f 2>/dev/null : find the file named “flag1.txt” in the current directory
+    find /home -name flag1.txt -type f 2>/dev/null : find the file names “flag1.txt” in the /home directory
+    find / -type d -name config -type f 2>/dev/null : find the directory named config under “/”
+    find / -type f -perm 0777 -type f 2>/dev/null : find files with the 777 permissions (files readable, writable, and executable by all users)
+    find / -perm a=x -type f 2>/dev/null : find executable files
+    find /home -user frank -type f 2>/dev/null : find all files for user “frank” under “/home”
+    find / -mtime 10 -type f 2>/dev/null : find files that were modified in the last 10 days
+    find / -atime 10 -type f 2>/dev/null : find files that were accessed in the last 10 day
+    find / -cmin -60 -type f 2>/dev/null : find files changed within the last hour (60 minutes)
+    find / -amin -60 -type f 2>/dev/null : find files accesses within the last hour (60 minutes)
+    find / -size 50M -type f 2>/dev/null : find files with a 50 MB size
+
+Folders and files that can be written to or executed from:
+
+    find / -writable -type d 2>/dev/null : Find world-writeable folders
+    find / -perm -222 -type d 2>/dev/null: Find world-writeable folders
+    find / -perm -o w -type d 2>/dev/null: Find world-writeable folders
+    find / -perm -o x -type d 2>/dev/null: Find world-executable folders
+
+Find development tools and supported languages:
+
+    find / -name perl*
+    find / -name python*
+    find / -name gcc*
+
+Find specific file permissions: 
+SUID bit
+
+    find / -perm -u=s -type f 2>/dev/null: Find files with the SUID bit, which allows us to run the file with a higher privilege level than the current user. 
+
+
+find / -type f -perm -04000 -ls 2>/dev/null : will list files that have SUID or SGID bits set.
+
+find / -writable 2>/dev/null
+
+writable subfolders 
+
+find / -writable 2>/dev/null | grep usr |cut -d "/" -f 2,3 | sort -u
+
+to get rid of the many results related to running processes.
+
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+
+
+    LinPeas: https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS
+
+    LinEnum: https://github.com/rebootuser/LinEnum
+
+    LES (Linux Exploit Suggester): https://github.com/mzet-/linux-exploit-suggester
+
+    Linux Smart Enumeration: https://github.com/diego-treitos/linux-smart-enumeration
+
+    Linux Priv Checker: https://github.com/linted/linuxprivchecker 
+
+
+
+
+
+unshadow passwd.txt shadow.txt > passwords.txt
+crack with john
+
+
+other method
+openssl passwd -1 -salt THM password1 
+add this password with a username to the /etc/passwd file.
+hacker:$1$THM$WnbwlliCqxFRQepUTCkUT1:0:0:root:/root:/bin/bash
+su hacker 
+
+
+Capabilities
+
+increase the privilege level of a process or binary 
+
+getcap -r / 2>/dev/null
+
+use gtfobins
+
+
+
+/etc/crontab
+

